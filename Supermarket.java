@@ -3,7 +3,7 @@ public class Supermarket implements PersonQueue {
 	private Person head = null;
 	private Person traverser = null;
 	private Person tail = null;
-	private Person nextCustomer = null;
+	private Person beingServed = null;
 
 	public void setHead(Person person) {
 		head = person;
@@ -13,8 +13,9 @@ public class Supermarket implements PersonQueue {
 		addPerson(newPerson);
 	}
 	
-	public void retrieve() { //retrieve has return type Person, servePerson has void...
-		servePerson();
+	public Person retrieve() { //retrieve has return type Person, servePerson has void...
+		beingServed = servePerson();
+		return beingServed;
 	}
 	
 	public void addPerson(Person newPerson) {
@@ -22,19 +23,24 @@ public class Supermarket implements PersonQueue {
 			tail = newPerson;
 	}
 	
-	public void servePerson() { //could return Person, then print details in retrieve method
-		if (isEmpty() == false) {
-			System.out.println("CASHIER: Next customer please... \n" + head.getName() + ": That's me.");			
+	public Person servePerson() { //could return Person, then print details in retrieve method
+		if (isEmpty() == false) {			
 			if (head.getNext() != null) { //checks that another customer is in the queue
+				beingServed = head;
 				head = head.getNext();
+				return beingServed;
 			}
 			else if (head.getNext() == null) {
+				beingServed = head;
 				head = null; 
+				return beingServed;
 			}
 		}
-		else {
+		else if (isEmpty() == true) {
 			System.out.println("There is no queue. All the customers have been served.");
+			beingServed = null;
 		}
+		return beingServed;
 	}
 				
 	public boolean isEmpty() {
@@ -82,7 +88,9 @@ public class Supermarket implements PersonQueue {
 	
 	int counter;
 	for (counter = 0; counter < Person.getCount() - 1; counter++) {
-		retrieve();	
+		beingServed = retrieve();	
+		System.out.println("The customer being served is " + beingServed.getName());
+		System.out.println("The customer at the front of the queue is " + head.getName());
 	}
 	
 	System.out.println("The last person in the queue is " + head.getName());
