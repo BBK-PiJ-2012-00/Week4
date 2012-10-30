@@ -1,12 +1,14 @@
 public class KeyStore {
 	private String name;
 	private int key;
-	private static keyCount;
+	private static int keyCount;
+	private KeyStore nextKey = null;
 	
-	public KeyStore(String name, int key) {
+	public KeyStore(int key, String name) {
 		this.name = name;
 		this.key = key;
 		this.nextKey = null;
+		keyCount++;
 	}
 	
 	public String getName() {
@@ -25,11 +27,11 @@ public class KeyStore {
 		this.nextKey = keyStore;
 	}
 	
-	public void incrementKeyCount() {
+	public static void incrementKeyCount() {
 		keyCount++;
 	}
 	
-	public int getKeyCount() {
+	public static int getKeyCount() {
 		return keyCount;
 	}
 	
