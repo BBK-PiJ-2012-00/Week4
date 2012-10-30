@@ -6,7 +6,7 @@ public class Map implements SimpleMap { //you either have a list inside map, or 
 /**
 * Puts a new String in the map.  If the key is already in the map, nothing is done.
 */
-	public String put(int key, String name) { //WORKING
+	public String put(int key, String name) { 
 		if (isEmpty() == false) {
 			if (containsKey(key, name) == false) {
 				createItem(key, name);
@@ -25,7 +25,7 @@ public class Map implements SimpleMap { //you either have a list inside map, or 
 /**
 * Returns the name associated with that key, or null if there is none.
 */
-	public String get(int key) { //WORKING
+	public String get(int key) { 
 		traverse = head;
 		int i;
 		for (i = 0; i < KeyStore.getKeyCount(); i++) {
@@ -58,7 +58,7 @@ public class Map implements SimpleMap { //you either have a list inside map, or 
 	}
 	
 	
-	public boolean containsKey(int key, String name) { //WORKING
+	public boolean containsKey(int key, String name) { 
 			traverse = head;
 			int i;
 			for (i = 0; i < KeyStore.getKeyCount(); i++) {
@@ -84,7 +84,7 @@ public class Map implements SimpleMap { //you either have a list inside map, or 
 		return false;
 	}
 	
-	public void createItem(int key, String name) { //WORKING
+	public void createItem(int key, String name) { 
 		KeyStore newItem = new KeyStore(key, name);
 		if (isEmpty()) {			
 			head = newItem;
@@ -172,7 +172,7 @@ public class Map implements SimpleMap { //you either have a list inside map, or 
 	
 	//Can be ''truly'' dynamic by asking user to say how many employees they'd like to enter, and then setting loop to match
 	
-	//Can fix confusing println about 'has been added' so that when someone isn't added
+	//**FIXED** Can fix confusing println about 'has been added' so that when someone isn't added
 	//because a duplicate exists, it's clear that no one's been added.  Minor point.
 	
 	
