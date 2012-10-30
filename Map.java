@@ -1,4 +1,4 @@
-public class Map { //you either have a list inside map, or an array
+public class Map implements SimpleMap { //you either have a list inside map, or an array
 	private KeyStore head = null;
 	private KeyStore tail = null;
 	private KeyStore traverse = null;	 
@@ -8,10 +8,10 @@ public class Map { //you either have a list inside map, or an array
 */
 	public String put(int key, String name) { //WORKING
 		if (isEmpty() == false) {
-			if (containsKey(key) == false) {
+			if (containsKey(key, name) == false) {
 				createItem(key, name);
 			}
-			else if (containsKey(key) == true) {
+			else if (containsKey(key, name) == true) {
 				String duplicateAlert = "This ID already exists.";
 				return duplicateAlert;
 			}
@@ -25,7 +25,7 @@ public class Map { //you either have a list inside map, or an array
 /**
 * Returns the name associated with that key, or null if there is none.
 */
-	String get(int key) { //WORKING
+	public String get(int key) { //WORKING
 		traverse = head;
 		int i;
 		for (i = 0; i < KeyStore.getKeyCount(); i++) {
@@ -38,16 +38,36 @@ public class Map { //you either have a list inside map, or an array
 		}
 		String notFound = "ID not found.";
 		return notFound;	
-	}		
+	}
+	
+	/**
+* Removes a name from the map. Future calls to get(key) will return null for this key unless another name is added with the same key.
+*/
+
+	public void remove(int key) {
+		traverse = head;
+		int i;
+		for (i = 0; i < KeyStore.getKeyCount(); i++) {
+			if (traverse.getKey() == key) {
+				traverse.setName(null);
+		}
+			else {
+			traverse = traverse.getNext();		
+			}
+		}
+	}
 	
 	
-	public boolean containsKey(int key) { //WORKING
+	public boolean containsKey(int key, String name) { //WORKING
 			traverse = head;
 			int i;
-			System.out.println(traverse.getKey());
-			System.out.println(KeyStore.getKeyCount());
 			for (i = 0; i < KeyStore.getKeyCount(); i++) {
-				if (traverse.getKey() == key) {
+				if ((traverse.getKey() == key) && (traverse.getName() == null)) {
+					traverse.setName(name);
+					System.out.println("ID successfully reused.");
+					return containsKey(key, name);
+				}
+				else if (traverse.getKey() == key) {
 					return true;
 				}
 				else {
@@ -95,21 +115,62 @@ public class Map { //you either have a list inside map, or an array
 	String name = System.console().readLine();
 	int id = Integer.parseInt(System.console().readLine());
 	String mappedName = put(id, name);
-	System.out.println(mappedName + " has been added to the database.");
+	if (mappedName.equals("This ID already exists.")) {
+		System.out.println(mappedName);
 	}
+	else {
+		System.out.println(mappedName + " has been added to the database.");
+	}
+	}
+	
 	
 	System.out.println("Enter an ID number to obtain the employee's name: ");
 	int id = Integer.parseInt(System.console().readLine());
 	String requestedID = get(id);
 	System.out.println("The employee associated with that ID is: " + requestedID);
 	
+	System.out.println("The employee list is as follows: ");
+	System.out.println("There are " + KeyStore.getKeyCount() + " employees.");
+	traverse = head;
+	for (i = 0; i < KeyStore.getKeyCount(); i++) {
+		System.out.println(traverse.getKey() + " " + traverse.getName());
+		traverse = traverse.getNext();
+	}
+	
+	System.out.println("Which employee would you like to remove?");
+	int idRemoval = Integer.parseInt(System.console().readLine());
+	remove(idRemoval);
+	
+	System.out.println("The employee list is as follows: ");
+	System.out.println("There are " + KeyStore.getKeyCount() + " employees.");
+	traverse = head;
+	for (i = 0; i < KeyStore.getKeyCount(); i++) {
+		System.out.println(traverse.getKey() + " " + traverse.getName());
+		traverse = traverse.getNext();
+	}
+	
+	System.out.println("Please add an employee: ");
+	String name = System.console().readLine();
+	id = Integer.parseInt(System.console().readLine());
+	String mappedName = put(id, name);
+	System.out.println(mappedName + " has been added to the database.");
+	
+	System.out.println("The employee list is as follows: ");
+	System.out.println("There are " + KeyStore.getKeyCount() + " employees.");
+	traverse = head;
+	for (i = 0; i < KeyStore.getKeyCount(); i++) {
+		System.out.println(traverse.getKey() + " " + traverse.getName());
+		traverse = traverse.getNext();
+	}
+	
+	
 
 	}
 
 }
 	
-	//Only Remove to add
 	
+	//Can be ''truly'' dynamic by asking user to say how many employees they'd like to enter, and then setting loop to match
 	
 	//Can fix confusing println about 'has been added' so that when someone isn't added
 	//because a duplicate exists, it's clear that no one's been added.  Minor point.
