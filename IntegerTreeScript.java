@@ -8,7 +8,7 @@ public class IntegerTreeScript {
 		
 	}
 	
-	public static void launch() {
+	private void launch() {
 	
 	IntegerTreeNode top = new IntegerTreeNode(13);
 	
@@ -20,9 +20,18 @@ public class IntegerTreeScript {
 	
 	top.add(30);
 	
-	System.out.println(top.getValue());
-	System.out.println(top.getLeft());
-	System.out.println(top.getRight());
+	top.add(40);
+	
+	String printString = top.toString();
+	System.out.println(printString);
+	
+	String printSimple = top.toSimpleString();
+	System.out.println(printSimple);
+	
+	int topDepth = top.depth();
+	System.out.println("The depth of the tree is: " + topDepth);
+	
+	
 	System.out.println(top.getMax() + " is the highest value in the tree.");
 	System.out.println(top.getMin() + " is the lowest value in the tree.");
 	
