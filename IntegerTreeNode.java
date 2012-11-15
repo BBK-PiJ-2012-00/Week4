@@ -19,6 +19,14 @@ public class IntegerTreeNode {
 		return this.right;
 	}
 	
+	public void setLeft(IntegerTreeNode node) {
+		this.left = node;
+	}
+	
+	public void setRight(IntegerTreeNode node) {
+		this.right = node;
+	}
+	
 	public void add(int newNumber) {
 		if (newNumber > this.value) {
 			if (right == null) {
@@ -43,14 +51,32 @@ public class IntegerTreeNode {
 			return true;
 		}
 		else if (n > this.value) {
-			return right.contains(n);
+			if (right != null) {
+				return right.contains(n);
+			}
 		}
 		else if (left != null) {
 			return left.contains(n);
 		}
-		else {
-			return false;
+		return false;		
+	}
+	
+	public boolean containsVerbose(int n) {
+		if (n == this.value) {
+			System.out.println(this.value);
+			return true;
 		}
+		else if (n > this.value) {
+			if (right != null) {
+				System.out.println(this.value);
+				return right.containsVerbose(n);
+			}
+		}
+		else if (left != null) {
+			System.out.println(this.value);
+			return left.containsVerbose(n);
+		}
+		return false;
 	}
 	
 	public int getMin() { //returns smallest number in tree
@@ -84,6 +110,18 @@ public class IntegerTreeNode {
 			string = string +  "R " + right.toString();
 		}
 		return string + "]";
+	}
+	
+	public String toCommaString() {
+		String string = "";
+		string = string + this.value;
+		if (this.left != null) {
+			string = string + ", " + left.toCommaString();
+		}
+		if (this.right != null) {
+			string = string + ", " + right.toCommaString();
+		}
+		return string;
 	}
 	
 	public String toSimpleString() {
@@ -147,3 +185,8 @@ Add a method depth() that returns the number of levels in a tree. By convention,
 (i.e. the root) has a depth of zero. Hint: the depths of the trees in Figure 1 are 0, 1, 2, and 3.
 Hint: the depth of a tree is one more than the deepest of its subtreees.
 */
+
+		
+
+	
+	
