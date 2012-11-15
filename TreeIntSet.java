@@ -1,71 +1,96 @@
 public class TreeIntSet implements IntSet {
-	private int value;
-	private TreeIntSet left = null;
-	private TreeIntSet right = null;
+	private IntegerTreeNode topNode = null;	
 	
-	public TreeIntSet(int num) {
-		this.value = num;
+	
+	public IntegerTreeNode getTopNode() {
+		return topNode;
 	}
 	
-	public void add(int newNumber) {
-		if (newNumber > this.value) {
-			if (right == null) {
-				right = new TreeIntSet(newNumber);
-			}
+	public void add(int newNumber) { 
+		if (contains(newNumber) == false) {
+			createNode(newNumber);
+		}
+	}	
+		
+	public boolean contains(int item) {
+		if (topNode == null) {
+			return false;
+		}
+		return topNode.contains(item);	
+	}
+	
+	public boolean containsVerbose(int item) {
+		if (topNode == null) {
+			return false;
+		}
+		return topNode.containsVerbose(item);
+	}
+	
+	private void createNode(int num) {
+		if (topNode == null) {
+			topNode = new IntegerTreeNode(num);
+		}
+		else {
+			topNode.add(num);
+		}		
+	}
+	
+	public String toString() {
+		return topNode.toCommaString();
+	}	
+
+
+	public static void main(String[] args) {
+	
+		TreeIntSet set = new TreeIntSet();
+		set.launch();
+	}
+		
+	private void launch() {
+	
+		add(5);
+		add(3);
+		add(7);
+		add(1);
+		add(9);
+		add(14);
+		add(21);
+		add(17);
+		
+		
+		containsVerbose(21);
+		
+		String s = toString();
+		System.out.println(s);
+	}
+	
+}
+
+	/**
+	private	void add(IntegerTreeNode node) {
+		if (newNumber > traverseNode.getValue()) {
+			if (traverseNode.getRight() == null) {
+				IntegerTreeNode newNode = IntegerTreeNode(newNumber);
+				traverseNode.setRight(newNode);
+				}
 			else {
-				right.add(newNumber);
+				traverseNode = traverseNode.getRight();
+				traverseNode.add(newNumber);
 			}
 		}
 		else {
-			if (left == null) {
-				left = new TreeIntSet(newNumber)
+			if (traverseNode.getLeft() == null) {
+				IntegerTreeNode newNode = IntegerTreeNode(newNumber)
+				traverseNode.setLeft(newNode);
 			}
 			else {
-				left.add(newNumber);
+				traverseNode = traverseNode.getLeft();
+				traverseNode.add(newNumber);
 			}
 		}
-	
 	}
-		
-		
-		
+	*/		
 		
 	
-
-
-
-
-
-
-
-
-
-
-
-
-public interface IntSet {
-
-	/**
-	* Adds a new int to the set; if it is there already, nothing happens.
-	*/
-	void add(int item);
-	
-	/**
-	* Returns true if the number is in the set, false otherwise.
-	*/
-	boolean contains(int item);
-	
-	/**
-	* Returns the same values as the former method but for every element that
-	* is checked, it prints its value on screen.
-	*/
-	boolean containsVerbose(int item);
-	
-	/**
-	* Returns a string with the values of the elements in the set separated by
-	* commas.
-	*/
-	String toString();
-	
-}
+//With trees, it is easier to delegate to the other classes than to do absolutely everything in this class.
 	
