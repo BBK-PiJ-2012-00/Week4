@@ -2,6 +2,7 @@ public class IntegerTreeNode {
 	private int value;
 	private IntegerTreeNode left = null;
 	private IntegerTreeNode right = null;
+	private IntegerTreeNode traverse = null;
 		
 	public IntegerTreeNode(int n) {
 		this.value = n;	
@@ -44,6 +45,10 @@ public class IntegerTreeNode {
 				left.add(newNumber);
 			}
 		}
+	}
+	
+	public void add(IntegerTreeNode node) {
+		add(node.value);
 	}
 	
 	public boolean contains(int n) {
@@ -152,6 +157,53 @@ public class IntegerTreeNode {
 			return leftDepth + 1;
 		}
 	}
+	
+	public IntegerTreeNode rebalance() { //For Ascending trees.		
+		traverse = this;
+		int depth = depth();
+		if (depth % 2 != 0) {
+			depth = depth + 1;
+		}
+		if (this.right != null) {
+			int midPoint = depth / 2;
+			int i = 1;
+			IntegerTreeNode lowRoot = new IntegerTreeNode(this.value);
+			for (i = 1; i < midPoint; i++) {	
+				traverse = traverse.right;	
+				lowRoot.add(traverse); //gives a separate tree of first half of sorted tree			
+			}
+			System.out.println("Traverse = " + traverse.value);
+			System.out.println("LowRoot tree: " + lowRoot.toSimpleString());
+			IntegerTreeNode highRoot = new IntegerTreeNode(traverse.right.value); //Root of upper half
+			traverse.add(lowRoot.rebalance());
+			traverse.add(highRoot.rebalance());
+		}
+		traverse.add(this);
+		return traverse;
+	} //3 is omitted, 5 is repeated twice. Nothing is added to highRoot tree!
+	//lowRoot reason for 3 omission? it's either 1123, or 1234 - no duplicate 1, and no 4 required
+	//separate method or section/loop to create the lowRoot/highRoot trees? 
+		
+		
+	
+		
+	/**	
+	public IntegerTreeNode getMidPoint() {
+		int depth = depth();
+		if (depth % 2 !=0) {
+			depth = depth + 1;
+		}
+		int midPoint = depth / 2;
+		int i = 1
+		for (i = 1; i < midPoint; i++) {
+			traverse = traverse.right;
+		}
+		return IntegerTreeNode midPos = traverse;
+	}
+	*/
+			
+	
+	
 
 	
 	
